@@ -7,6 +7,7 @@ function App() {
     <>
       <p>hi</p>
       <p>hello world</p>
+      <h1>world</h1>
     </>
   )
 }
