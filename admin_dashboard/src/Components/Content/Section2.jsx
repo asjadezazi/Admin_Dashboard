@@ -1,9 +1,10 @@
 import Box from '@mui/material/Box';
 import { Route, Routes } from 'react-router-dom';
 import Navbar from './Navbar'
-import TeachersList from './TeacherList';
+import TeacherList from './TeacherList';
 import AddTeacher from './AddTeacher';
-import AddCourse from './AddCourse'
+import AddCourse from './AddCourse';
+import CourseList from './CourseList'
 
 const Section2 = () => {
     return (
@@ -13,13 +14,17 @@ const Section2 = () => {
             < Navbar />
 
             <Routes>
-                <Route path="/teachers-list" element={<TeachersList />} />
+                <Route path="/teachers-list" element={<TeacherList />} />
                 <Route path="/add-teacher" element={<AddTeacher />} />
                 <Route path="/add-course" element={<AddCourse />} />
+                <Route path="/course-list" element={<CourseList />} />
             </Routes>
         </Box >
     );
 };
 
 export default Section2;
+
+
+
 

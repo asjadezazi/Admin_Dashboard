@@ -26,7 +26,7 @@ const rows = [
         designation: "Senior Lecturer",
         qualification: "PhD in Political Economy",
         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmCicxernIb5W2jIRbjKwiMOVIit_7XJtczA&s",
-    },
+    }, 
     {
         id: 5,
         name: "Arya Stark",

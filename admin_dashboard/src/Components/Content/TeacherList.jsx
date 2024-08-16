@@ -1,8 +1,14 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Stack, Button, Avatar, Box, Tabs, Tab } from "@mui/material";
-import Paper from "@mui/material/Paper";
-import rows from "./data";
+import { useState } from "react";
+import {
+    Stack,
+    TextField,
+    Button,
+    Box,
+    Avatar,
+    Paper,
+    Link,
+    // Typography,
+} from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,6 +16,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+import rows from "./data";
 
 const columns = [
     { id: "name", label: "Name", minWidth: 150 },
@@ -19,45 +26,16 @@ const columns = [
         id: "image",
         label: "Image",
         minWidth: 100,
-        // align: "center",
         renderCell: (value) => (
             <Avatar alt="Profile" src={value || "https://via.placeholder.com/150"} />
         ),
     },
 ];
 
-function a11yProps(index) {
-    return {
-        id: `simple-tab-${index}`,
-        "aria-controls": `simple-tabpanel-${index}`,
-    };
-}
-
-function TabPanel(props) {
-    // eslint-disable-next-line react/prop-types
-    const { children, value, index, ...other } = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-        >
-            {value === index && <Box sx={{ p: 4 }}>{children}</Box>}
-        </div>
-    );
-}
-
 const TeacherList = () => {
-    const [value, setValue] = React.useState(0);
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
+    const [currentView, setCurrentView] = useState("list");
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -70,29 +48,35 @@ const TeacherList = () => {
 
     return (
         <Box sx={{ width: "100%" }}>
-            <Tabs
-                value={value}
-                onChange={handleChange}
-                textColor="secondary"
-                indicatorColor="secondary"
-                aria-label="tabs for teacher management"
-            >
-                <Tab label="Add Teacher" {...a11yProps(0)} />
-                <Tab label="Teacher List" {...a11yProps(1)} />
-            </Tabs>
+            <Box sx={{ display: "flex", justifyContent: "center", gap: 3, mt: 2 }}>
+                <Link
+                    component="button"
+                    variant="body1"
+                    underline="hover"
+                    onClick={() => setCurrentView("list")}
+                    sx={{
+                        cursor: "pointer",
+                        fontWeight: currentView === "list" ? "bold" : "normal",
+                    }}
+                >
+                    Teacher List
+                </Link>
+                <Link
+                    component="button"
+                    variant="body1"
+                    underline="hover"
+                    onClick={() => setCurrentView("add")}
+                    sx={{
+                        cursor: "pointer",
+                        fontWeight: currentView === "add" ? "bold" : "normal",
+                    }}
+                >
+                    Add Teacher
+                </Link>
+            </Box>
 
-            <TabPanel value={value} index={0}>
-                <Stack direction="row" spacing={2} mb={2}>
-                    <Link to="/add-teacher" style={{ textDecoration: "none" }}>
-                        <Button variant="contained" color="primary">
-                            Add Teacher
-                        </Button>
-                    </Link>
-                </Stack>
-            </TabPanel>
-
-            <TabPanel value={value} index={1}>
-                <Paper sx={{ width: "100%", overflow: "hidden" }}>
+            {currentView === "list" && (
+                <Paper sx={{ width: "96%", overflow: "hidden", ml: 2, mt: 4 }}>
                     <TableContainer sx={{ maxHeight: 440 }}>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
@@ -141,7 +125,34 @@ const TeacherList = () => {
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                 </Paper>
-            </TabPanel>
+            )}
+
+            {currentView === "add" && (
+                <Box display="flex" flexDirection="column" alignItems="center" mt={5}>
+                    {/* <Typography variant="h6" sx={{ mb: 2 }}>
+                        Add New Teacher
+                    </Typography> */}
+                    <Box
+                        p={4}
+                        width="400px"
+                        border="2px solid rgba(0, 0, 0, 0.12)"
+                        borderRadius="8px"
+                    >
+                        <Stack spacing={2}>
+                            <TextField label="Name" variant="outlined" fullWidth />
+                            <TextField label="Designation" variant="outlined" fullWidth />
+                            <TextField label="Qualification" variant="outlined" fullWidth />
+                            <Button variant="contained" component="label">
+                                Upload Photo
+                                <input type="file" hidden />
+                            </Button>
+                            <Button variant="contained" color="secondary" fullWidth>
+                                Submit
+                            </Button>
+                        </Stack>
+                    </Box>
+                </Box>
+            )}
         </Box>
     );
 };
