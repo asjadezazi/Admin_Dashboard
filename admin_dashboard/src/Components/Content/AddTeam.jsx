@@ -1,7 +1,7 @@
 import { Stack, TextField, Button, Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
-const AddCourse = () => {
+const AddTeam = () => {
     return (
         <Box
             display="flex"
@@ -10,11 +10,11 @@ const AddCourse = () => {
             mt={4}
         >
             <Stack direction="row" spacing={2} mb={1}>
-                <Link to="/add-course" style={{ textDecoration: 'none' }}>
-                    <Typography variant="h6" color="primary">Add Course</Typography>
+                <Link to="/add-team" style={{ textDecoration: 'none' }}>
+                    <Typography variant="h6" color="primary">Add Team</Typography>
                 </Link>
-                <Link to="/course-list" style={{ textDecoration: 'none' }}>
-                    <Typography variant="h6" color="primary">Course List</Typography>
+                <Link to="/team-list" style={{ textDecoration: 'none' }}>
+                    <Typography variant="h6" color="primary">Team List</Typography>
                 </Link>
             </Stack>
             <Box
@@ -24,8 +24,10 @@ const AddCourse = () => {
                 borderRadius="8px"
             >
                 <Stack spacing={2}>
-                    <TextField label="Title" variant="outlined" fullWidth />
-                    <TextField label="Description" variant="outlined" fullWidth />
+                    <TextField label="Name" variant="outlined" fullWidth />
+                    <TextField label="Background" variant="outlined" fullWidth />
+                    <TextField label="Designation" variant="outlined" fullWidth />
+                    {/* <TextField label="Qualification" variant="outlined" fullWidth /> */}
                     <Button variant="contained" component="label">
                         Upload Photo
                         <input type="file" hidden />
@@ -39,7 +41,7 @@ const AddCourse = () => {
     );
 };
 
-export default AddCourse;
+export default AddTeam;
 
 
 

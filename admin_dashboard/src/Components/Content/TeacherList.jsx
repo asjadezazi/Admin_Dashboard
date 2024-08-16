@@ -7,7 +7,6 @@ import {
     Avatar,
     Paper,
     Link,
-    // Typography,
 } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -129,9 +128,7 @@ const TeacherList = () => {
 
             {currentView === "add" && (
                 <Box display="flex" flexDirection="column" alignItems="center" mt={5}>
-                    {/* <Typography variant="h6" sx={{ mb: 2 }}>
-                        Add New Teacher
-                    </Typography> */}
+
                     <Box
                         p={4}
                         width="400px"

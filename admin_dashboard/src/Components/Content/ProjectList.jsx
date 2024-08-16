@@ -30,7 +30,7 @@ const columns = [
     },
 ];
 
-const CourseList = () => {
+const ProjectList = () => {
     const [currentView, setCurrentView] = useState("list");
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -57,7 +57,7 @@ const CourseList = () => {
                         fontWeight: currentView === "list" ? "bold" : "normal",
                     }}
                 >
-                    Course List
+                    Project List
                 </Link>
                 <Link
                     component="button"
@@ -69,7 +69,7 @@ const CourseList = () => {
                         fontWeight: currentView === "add" ? "bold" : "normal",
                     }}
                 >
-                    Add Course
+                    Add Project
                 </Link>
             </Box>
 
@@ -151,4 +151,4 @@ const CourseList = () => {
     );
 };
 
-export default CourseList;
+export default ProjectList;

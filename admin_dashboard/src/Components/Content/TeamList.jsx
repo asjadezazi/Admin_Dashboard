@@ -18,8 +18,9 @@ import TableRow from "@mui/material/TableRow";
 import rows from "./data1";
 
 const columns = [
-    { id: "title", label: "Title", minWidth: 150 },
-    { id: "description", label: "Description", minWidth: 150 },
+    { id: "name", label: "Name", minWidth: 150 },
+    { id: "background", label: "Background", minWidth: 150 },
+    { id: "designation", label: "Designation", minWidth: 150 },
     {
         id: "image",
         label: "Image",
@@ -30,7 +31,7 @@ const columns = [
     },
 ];
 
-const CourseList = () => {
+const TeamList = () => {
     const [currentView, setCurrentView] = useState("list");
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -57,7 +58,7 @@ const CourseList = () => {
                         fontWeight: currentView === "list" ? "bold" : "normal",
                     }}
                 >
-                    Course List
+                    Project List
                 </Link>
                 <Link
                     component="button"
@@ -69,7 +70,7 @@ const CourseList = () => {
                         fontWeight: currentView === "add" ? "bold" : "normal",
                     }}
                 >
-                    Add Course
+                    Add Project
                 </Link>
             </Box>
 
@@ -134,8 +135,9 @@ const CourseList = () => {
                         borderRadius="8px"
                     >
                         <Stack spacing={2}>
-                            <TextField label="Title" variant="outlined" fullWidth />
-                            <TextField label="Description" variant="outlined" fullWidth />
+                            <TextField label="Name" variant="outlined" fullWidth />
+                            <TextField label="Background" variant="outlined" fullWidth />
+                            <TextField label="Designation" variant="outlined" fullWidth />
                             <Button variant="contained" component="label">
                                 Upload Photo
                                 <input type="file" hidden />
@@ -151,4 +153,4 @@ const CourseList = () => {
     );
 };
 
-export default CourseList;
+export default TeamList;
