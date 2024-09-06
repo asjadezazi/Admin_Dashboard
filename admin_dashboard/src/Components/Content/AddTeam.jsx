@@ -11,83 +11,78 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import '../Styles/Layout.css'
 
-const AddTeacher = () => {
+const AddTeam = () => {
   const [name, setName] = useState("");
+  const [background, setBackground] = useState("");
   const [designation, setDesignation] = useState("");
-  const [qualification, setQualification] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  // const [photo, setPhoto] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the form from refreshing the page
+  const handleAddTeam = async () => {
     try {
       const response = await fetch(
-        "http://localhost:4000/api/coaching/createTeacher",
+        "http://localhost:4000/api/ITservices/createTeam",
         {
           method: "POST",
-          body: JSON.stringify({ name, designation, qualification }),
+          body: JSON.stringify({ name, background, designation }),
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
-
       if (response.ok) {
         const data = await response.json();
-        console.log("Success response:", data);
+        console.log("Succes response", data);
         setSnackbarMessage("Teacher added successfully!");
         setSnackbarSeverity("success");
         setSnackbarOpen(true);
-
         setName("");
+        setBackground("");
         setDesignation("");
-        setQualification("");
       } else {
-        const errorData = await response.json();
-        console.log("Error response:", errorData);
+        console.log("Error message", response);
         setSnackbarMessage("Failed to add teacher. Please try again.");
         setSnackbarSeverity("error");
         setSnackbarOpen(true);
       }
     } catch (error) {
-      console.log("Error:", error);
-      setSnackbarMessage("An error occurred. Please try again.");
-      setSnackbarSeverity("error");
-      setSnackbarOpen(true);
+      console.log("Error while adding the project :", error);
+      alert("There was an error while adding the project");
     }
   };
 
-  const handleSnackbarClose = () => {
+  const handleSnackTeam = () => {
     setSnackbarOpen(false);
   };
 
   return (
     <Box
-      className="add-teacher-container"
-     
+      className="add-team-container"
+      
     >
       <Stack
         direction="row"
         spacing={2}
         mb={2}
-        className="add-teacher-links"
-        
-      >
-        <Link to="/add-teacher" style={{ textDecoration: "none" }}>
+         className="add-team-links"
+       >
+        <Link to="/add-team" style={{ textDecoration: "none" }}>
           <Typography variant="h6" color="primary" sx={{ fontWeight: 500 }}>
-            Add Teacher
+            Add Team
           </Typography>
         </Link>
-        <Link to="/teachers-list" style={{ textDecoration: "none" }}>
+        <Link to="/team-list" style={{ textDecoration: "none" }}>
           <Typography variant="h6" color="primary" sx={{ fontWeight: 500 }}>
-            Teacher List
+            Team List
           </Typography>
         </Link>
       </Stack>
       <Box
-        className= "add-teacher-box"
-        >
+        className="add-team-box"
+       
+      >
         <Stack spacing={2}>
           <TextField
             label="Name"
@@ -97,25 +92,29 @@ const AddTeacher = () => {
             onChange={(e) => setName(e.target.value)}
           />
           <TextField
+            label="Background"
+            variant="outlined"
+            fullWidth
+            value={background}
+            onChange={(e) => setBackground(e.target.value)}
+          />
+          <TextField
             label="Designation"
             variant="outlined"
             fullWidth
             value={designation}
             onChange={(e) => setDesignation(e.target.value)}
           />
-          <TextField
-            label="Qualification"
-            variant="outlined"
-            fullWidth
-            value={qualification}
-            onChange={(e) => setQualification(e.target.value)}
-          />
+          {/* <Button variant="contained" component="label">
+            Upload Photo
+            <input type="file" hidden />
+          </Button> */}
           <Button
-            className="add-teacher-btn"
+            className="add-team-btn"
             variant="contained"
             color="secondary"
             fullWidth
-            onClick={handleSubmit}
+            onClick={handleAddTeam}
           >
             Submit
           </Button>
@@ -125,11 +124,11 @@ const AddTeacher = () => {
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={3000}
-        onClose={handleSnackbarClose}
+        onClose={handleSnackTeam}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <Alert
-          onClose={handleSnackbarClose}
+          onClose={handleSnackTeam}
           severity={snackbarSeverity}
           sx={{ width: "100%" }}
         >
@@ -140,4 +139,4 @@ const AddTeacher = () => {
   );
 };
 
-export default AddTeacher;
+export default AddTeam;

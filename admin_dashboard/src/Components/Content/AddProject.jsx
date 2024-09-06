@@ -11,64 +11,75 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import '../Styles/Layout.css'
 
-const AddCourse = () => {
+const AddProject = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
-  const handleAddCourse = async () => {
+  const handleSubmit = async () => {
     try {
       const response = await fetch(
-        "http://localhost:4000/api/coaching/createCourse",
+        "http://localhost:4000/api/ITservices/createProject",
         {
-          method: "Post",
+          method: "POST",
           body: JSON.stringify({ title, description }),
           headers: {
-            "Content-type": "application/json",
+            "Content-Type": "application/json",
           },
         }
       );
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Succes response:", data);
-        setSnackbarMessage("Course Added successfully!!");
-        setSnackbarSeverity("success");
-        setSnackbarOpen(true);
-
-        setTitle("");
-        setDescription("");
-      } else {
-        console.log("error message");
-        setSnackbarMessage("Failed to add course. Please try again later.");
-        setSnackbarSeverity("error");
-        setSnackbarOpen(true);
-      }
-    } catch {
-      console.log("error");
+     if (response.ok) {
+       const data = await response.json();
+       console.log("Success response", data);
+       setSnackbarMessage("Project added successfully!");
+       setSnackbarSeverity("success");
+       setSnackbarOpen(true);
+       setTitle("");
+       setDescription("");
+     } else {
+       console.error("Error response", response);
+       setSnackbarMessage("Failed to add project. Please try again.");
+       setSnackbarSeverity("error");
+       setSnackbarOpen(true);
+     }
+    } catch (error) {
+      console.error("Error while adding the project:", error);
+      alert("There was an error while adding the project.");
     }
   };
 
-  const handleSnackCloseCourse = () => {
+  const handleSnackProject = () => {
     setSnackbarOpen(false);
   };
 
   return (
-    <Box className="add-course-container">
-      <Stack direction="row" spacing={2} className="add-course-links">
-        <Link to="/add-course" style={{ textDecoration: "none" }}>
-          <Typography variant="h6" color="primary" sx={{ fontWeight:500 }}>
-            Add Course
+    <Box className = "add-project-container"
+     
+    >
+      <Stack
+        direction="row"
+        spacing={2}
+        mb={2}
+        className="add-project-links"
+       
+      >
+        <Link to="/add-project" style={{ textDecoration: "none" }}>
+          <Typography variant="h6" color="primary" sx={{ fontWeight: 500 }}>
+            Add Project
           </Typography>
         </Link>
-        <Link to="/course-list" style={{ textDecoration: "none" }}>
+        <Link to="/project-list" style={{ textDecoration: "none" }}>
           <Typography variant="h6" color="primary" sx={{ fontWeight: 500 }}>
-            Course List
+            Project List
           </Typography>
         </Link>
       </Stack>
-      <Box className="add-course-box">
+      <Box
+        className="add-project-box"
+        
+      >
         <Stack spacing={2}>
           <TextField
             label="Title"
@@ -84,15 +95,12 @@ const AddCourse = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
-          {/* <Button variant="contained" component="label">
-            Upload Photo
-            <input type="file" hidden />
-          </Button> */}
           <Button
-            className="add-course-btn"
+            className="add-project-btn"
             variant="contained"
             color="secondary"
-            onClick={handleAddCourse}
+            fullWidth
+            onClick={handleSubmit}
           >
             Submit
           </Button>
@@ -102,11 +110,11 @@ const AddCourse = () => {
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={3000}
-        onClose={handleSnackCloseCourse}
+        onClose={handleSnackProject}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <Alert
-          onClose={handleSnackCloseCourse}
+          onClose={handleSnackProject}
           severity={snackbarSeverity}
           sx={{ width: "100%" }}
         >
@@ -117,4 +125,4 @@ const AddCourse = () => {
   );
 };
 
-export default AddCourse;
+export default AddProject;
