@@ -25,27 +25,25 @@ import TableRow from "@mui/material/TableRow";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useTheme } from "@mui/material/styles";
-import '../Styles/Layout.css'
 
 const columns = [
-  { id: "name", label: "Name", minWidth: 150 },
-  { id: "designation", label: "Designation", minWidth: 150 },
-  { id: "qualification", label: "Qualification", minWidth: 200 },
+  { id: "title", label: "Title", minWidth: 150 },
+  { id: "description", label: "Description", minWidth: 150 },
+ 
   { id: "operations", label: "Operations", minWidth: 100 },
 ];
 
-const TeacherList = () => {
+const CourseList = () => {
   const [currentView, setCurrentView] = useState("list");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [rows, setRows] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [newTeacher, setNewTeacher] = useState({
+  const [newCourse, setNewCourseList] = useState({
     id: "",
-    name: "",
-    designation: "",
-    qualification: "",
+    title: "",
+    description: "",
   });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -58,15 +56,15 @@ const TeacherList = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   // Refactored fetchTeachers using useCallback
-  const fetchTeachers = useCallback(async () => {
+  const fetchCourse = useCallback(async () => {
     setLoading(true);
     try {
       const response = await fetch(
         searchQuery
-          ? `http://localhost:4000/api/coaching/searchTeachers/${encodeURIComponent(
+          ? `http://localhost:4000/api/coaching/searchCourses/${encodeURIComponent(
               searchQuery
             )}`
-          : `http://localhost:4000/api/coaching/listTeacher?page=${
+          : `http://localhost:4000/api/coaching/listCourse?page=${
               page + 1
             }&limit=${rowsPerPage}`
       );
@@ -77,8 +75,8 @@ const TeacherList = () => {
       setRows(result.data || result);
       setTotal(result.total || (result.data ? result.data.length : 0));
     } catch (error) {
-      console.error("Error fetching teacher data:", error);
-      setSnackbarMessage("Failed to fetch teachers. Please try again.");
+      console.error("Error fetching course data:", error);
+      setSnackbarMessage("Failed to fetch course. Please try again.");
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
     } finally {
@@ -88,8 +86,8 @@ const TeacherList = () => {
 
   // Initial fetch and on dependencies change
   useEffect(() => {
-    fetchTeachers();
-  }, [fetchTeachers]);
+    fetchCourse();
+  }, [fetchCourse]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -100,29 +98,28 @@ const TeacherList = () => {
     setPage(0);
   };
 
-  const handleTeacher = (event) => {
+  const handleCourse = (event) => {
     const { name, value } = event.target;
-    setNewTeacher((prevState) => ({
+    setNewCourseList((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
-  const handleTeacherList = async (event) => {
+  const handleCourseList = async (event) => {
     event.preventDefault();
 
     try {
       const url =
         currentView === "edit"
-          ? `http://localhost:4000/api/coaching/updateTeacher/${newTeacher.id}`
-          : "http://localhost:4000/api/coaching/createTeacher";
+          ? `http://localhost:4000/api/coaching/updateCourse/${newCourse.id}`
+          : "http://localhost:4000/api/coaching/createCourse";
       const method = currentView === "edit" ? "PUT" : "POST";
       const response = await fetch(url, {
         method,
         body: JSON.stringify({
-          name: newTeacher.name,
-          designation: newTeacher.designation,
-          qualification: newTeacher.qualification,
+          title: newCourse.title,
+          description: newCourse.description,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -137,37 +134,36 @@ const TeacherList = () => {
 
       setSnackbarMessage(
         currentView === "edit"
-          ? "Teacher updated successfully!"
-          : "Teacher added successfully!"
+          ? "Course updated successfully!"
+          : "Course added successfully!"
       );
       setSnackbarSeverity("success");
       setSnackbarOpen(true);
 
       // Refetch the teachers to get the updated list
       // Optionally, you can optimize by updating the state manually as you did before
-      await fetchTeachers();
+      await fetchCourse();
 
-      setNewTeacher({
+      setNewCourseList({
         id: "",
-        name: "",
-        designation: "",
-        qualification: "",
+        title: "",
+        description: "",
       });
       setCurrentView("list");
     } catch (error) {
-      console.error("Error processing teacher:", error);
+      console.error("Error processing course:", error);
 
       setSnackbarMessage(
         currentView === "edit"
-          ? "Error updating teacher. Please try again."
-          : "Error adding teacher. Please try again."
+          ? "Error updating course. Please try again."
+          : "Error adding course. Please try again."
       );
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
     }
   };
 
-  const handleSnackCloseTeacher = (event, reason) => {
+  const handleSnackCloseCourse = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
@@ -180,11 +176,10 @@ const TeacherList = () => {
 
   const handleEdit = () => {
     if (selectedRow) {
-      setNewTeacher({
+      setNewCourseList({
         id: selectedRow._id,
-        name: selectedRow.name,
-        qualification: selectedRow.qualification,
-        designation: selectedRow.designation,
+        title: selectedRow.title,
+        description: selectedRow.description,
       });
       setCurrentView("edit");
     }
@@ -196,7 +191,7 @@ const TeacherList = () => {
     setSelectedRow(row);
   };
 
-  const handleDeleteTeacher = async () => {
+  const handleDeleteCourseList = async () => {
     if (!selectedRow || !selectedRow._id) {
       console.log("No row selected or ID is undefined");
       return;
@@ -205,7 +200,7 @@ const TeacherList = () => {
     try {
       console.log(`Deleting row with ID: ${selectedRow._id}`); // Debugging info
       const response = await fetch(
-        `http://localhost:4000/api/coaching/deleteTeacher/${selectedRow._id}`,
+        `http://localhost:4000/api/coaching/deleteCourse/${selectedRow._id}`,
         {
           method: "DELETE",
         }
@@ -214,15 +209,15 @@ const TeacherList = () => {
       if (!response.ok)
         throw new Error(`HTTP error! status: ${response.status}`);
 
-      setSnackbarMessage("Teacher successfully deleted.");
+      setSnackbarMessage("Course successfully deleted.");
       setSnackbarSeverity("success");
       setSnackbarOpen(true);
 
-      // Refetch the teachers to get the updated list
-      await fetchTeachers();
+      // Refetch the course to get the updated list
+      await fetchCourse();
     } catch (error) {
-      console.error("Error deleting teacher:", error);
-      setSnackbarMessage("Error deleting teacher.");
+      console.error("Error deleting course:", error);
+      setSnackbarMessage("Error deleting course.");
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
     } finally {
@@ -236,50 +231,74 @@ const TeacherList = () => {
   };
 
   return (
-    <Box className="teacher-list-container">
-      <Box className="flex-container">
-        <Box className="links-container">
-          <Link
-            component="button"
-            variant="body1"
-            underline="hover"
-            onClick={() => setCurrentView("list")}
-            className={`nav-link ${currentView === "list" ? "active" : ""}`}
-          >
-            Teacher List
-          </Link>
-          <Link
-            component="button"
-            variant="body1"
-            underline="hover"
-            onClick={() => setCurrentView("add")}
-            className={`nav-link ${currentView === "add" ? "active" : ""}`}
-          >
-            Add Teacher
-          </Link>
-        </Box>
-
-        <TextField
-          variant="outlined"
-          size="small"
-          placeholder="Search..."
-          value={searchQuery}
-          onChange={handleSearchChange}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton edge="end">
-                  <SearchIcon />
-                </IconButton>
-              </InputAdornment>
-            ),
+    <Box sx={{ width: "100%" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: isSmallScreen ? "center" : "space-between",
+          flexDirection: isSmallScreen ? "column" : "row",
+          gap: isSmallScreen ? 2 : 0,
+          mt: 2,
+          mb: 2,
+        }}
+      >
+        <Link
+          component="button"
+          variant="body1"
+          underline="hover"
+          onClick={() => setCurrentView("list")}
+          sx={{
+            cursor: "pointer",
+            fontWeight: currentView === "list" ? "bold" : "normal",
+            color: currentView === "list" ? "primary.main" : "text.primary",
           }}
-          className="search-bar"
-        />
+        >
+          Course List
+        </Link>
+        <Link
+          component="button"
+          variant="body1"
+          underline="hover"
+          onClick={() => setCurrentView("add")}
+          sx={{
+            cursor: "pointer",
+            fontWeight: currentView === "add" ? "bold" : "normal",
+            color: currentView === "add" ? "primary.main" : "text.primary",
+          }}
+        >
+          Add Course
+        </Link>
       </Box>
+      <TextField
+        variant="outlined"
+        size="small"
+        placeholder="Search..."
+        value={searchQuery}
+        onChange={handleSearchChange}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton edge="end">
+                <SearchIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+        sx={{ width: isSmallScreen ? "100%" : "300px" }}
+      />
 
       {currentView === "list" && (
-        <Paper className="table-container">
+        <Paper
+          sx={{
+            width: "100%",
+            overflow: "hidden",
+            mt: 4,
+            border: "1px solid",
+            borderColor: theme.palette.divider,
+            borderRadius: 1,
+            padding: isSmallScreen ? 2 : 4,
+          }}
+        >
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
@@ -288,7 +307,7 @@ const TeacherList = () => {
                     <TableCell
                       key={column.id}
                       align={column.align || "left"}
-                      className="table-head-cell"
+                      style={{ minWidth: column.minWidth }}
                     >
                       {column.label}
                     </TableCell>
@@ -336,7 +355,7 @@ const TeacherList = () => {
                                   <MenuItem onClick={handleEdit}>
                                     <EditIcon sx={{ mr: 1 }} /> Edit
                                   </MenuItem>
-                                  <MenuItem onClick={handleDeleteTeacher}>
+                                  <MenuItem onClick={handleDeleteCourseList}>
                                     <DeleteIcon sx={{ mr: 1 }} /> Delete
                                   </MenuItem>
                                 </Menu>
@@ -356,7 +375,7 @@ const TeacherList = () => {
                 ) : (
                   <TableRow>
                     <TableCell colSpan={columns.length} align="center">
-                      No teachers found.
+                      No Course found.
                     </TableCell>
                   </TableRow>
                 )}
@@ -376,36 +395,32 @@ const TeacherList = () => {
       )}
 
       {(currentView === "add" || currentView === "edit") && (
-        <Box className="form-container">
-          <Box className="form-box">
-            <form onSubmit={handleTeacherList}>
+        <Box display="flex" flexDirection="column" alignItems="center" mt={5}>
+          <Box
+            p={4}
+            width="400px"
+            border="2px solid rgba(0, 0, 0, 0.12)"
+            borderRadius="8px"
+          >
+            <form onSubmit={handleCourseList}>
               <Stack spacing={2}>
                 <TextField
-                  label="Name"
+                  label="Title"
                   variant="outlined"
                   fullWidth
-                  name="name"
-                  value={newTeacher.name}
-                  onChange={handleTeacher}
-                  required
-                />
-                <TextField
-                  label="Designation"
-                  variant="outlined"
-                  fullWidth
-                  name="designation"
-                  value={newTeacher.designation}
-                  onChange={handleTeacher}
+                  name="title"
+                  value={newCourse.title}
+                  onChange={handleCourse}
                   required
                 />
 
                 <TextField
-                  label="Qualification"
+                  label="Description"
                   variant="outlined"
                   fullWidth
-                  name="qualification"
-                  value={newTeacher.qualification}
-                  onChange={handleTeacher}
+                  name="description"
+                  value={newCourse.description}
+                  onChange={handleCourse}
                   required
                 />
 
@@ -413,7 +428,7 @@ const TeacherList = () => {
                   type="submit"
                   variant="contained"
                   color="secondary"
-                  className="submit-button"
+                  fullWidth
                 >
                   {currentView === "edit" ? "Update" : "Submit"}
                 </Button>
@@ -426,12 +441,11 @@ const TeacherList = () => {
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
-        onClose={handleSnackCloseTeacher}
+        onClose={handleSnackCloseCourse}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        className="snackbar"
       >
         <Alert
-          onClose={handleSnackCloseTeacher}
+          onClose={handleSnackCloseCourse}
           severity={snackbarSeverity}
           sx={{ width: "100%" }}
         >
@@ -442,4 +456,4 @@ const TeacherList = () => {
   );
 };
 
-export default TeacherList;
+export default CourseList;

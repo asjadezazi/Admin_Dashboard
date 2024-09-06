@@ -1,0 +1,175 @@
+/*addcourse css start*/
+.add-course-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 32px;
+  justify-content: center;
+}
+
+.add-course-links {
+  width: 100%;
+  justify-content: flex-start;
+  padding-left: 20px; 
+  margin-bottom: 16px;
+}
+
+.add-course-box {
+  padding: 16px;
+  width: 100%;
+  max-width: 350px;
+  border: 2px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+}
+
+.add-course-btn {
+  width: 100%;
+}
+/*addcourse css end*/
+
+
+
+/*addproject css start*/
+.add-project-container{
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 32px;
+  justify-content: center;
+}
+.add-project-links {
+  width: 100%;
+  justify-content: flex-start;
+  padding-left: 20px; 
+  margin-bottom: 16px;
+}
+.add-project-box {
+  padding: 16px;
+  width: 100%;
+  max-width: 350px;
+  border: 2px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+}
+.add-project-btn {
+  width: 100%;
+}
+/*addproject css end*/
+
+
+
+
+/*addteacher css start*/
+.add-teacher-container{
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 32px;
+  justify-content: center;
+}
+.add-teacher-links {
+  width: 100%;
+  justify-content: flex-start;
+  padding-left: 20px; 
+  margin-bottom: 16px;
+}
+.add-teacher-box {
+  padding: 16px;
+  width: 100%;
+  max-width: 350px;
+  border: 2px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+}
+.add-teacher-btn {
+  width: 100%;
+}
+/*addproject css end*/
+
+
+
+
+/*addteam css start*/
+.add-team-container{
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 32px;
+  justify-content: center;
+}
+.add-team-links {
+  width: 100%;
+  justify-content: flex-start;
+  padding-left: 20px; 
+  margin-bottom: 16px;
+}
+.add-team-box {
+  padding: 16px;
+  width: 100%;
+  max-width: 350px;
+  border: 2px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+}
+.add-team-btn {
+  width: 100%;
+}
+/*addteam css end*/
+
+
+
+/*teacherlist css start */
+
+/* Container */
+/* Container */
+.teacher-list-container {
+  width: 100%;
+}
+
+/* Navigation Links */
+.nav-link {
+  cursor: pointer;
+  font-weight: normal;
+  color: var(--text-primary);
+  padding: 8px;
+  gap: 12;
+display: flex;
+  margin-right: 16px;
+  text-transform: uppercase;
+  /* transition: color 0.3s ease, font-weight 0.3s ease; */
+}
+
+.nav-link.active {
+  font-weight: bold;
+  color: var(--primary-main);
+}
+
+.links-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Flexbox for links and search bar */
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+/* Search Bar */
+.search-bar {
+  width: 300px;
+  transition: width 0.3s ease;
+}
+
+@media (max-width: 600px) {
+  .flex-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .links-container {
+    justify-content: center;
+  }
+  .search-bar {
+    width: 100%;
+  }
+}
