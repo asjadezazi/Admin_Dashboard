@@ -9,20 +9,26 @@ import ProjectList from "./ProjectList";
 import AddProject from "./AddProject";
 import TeamList from "./TeamList";
 import AddTeam from "./AddTeam";
+import DashBoard from "./DashBoard";
+import Error from './Error'
+
+
 const Section2 = () => {
   return (
     <Box
       sx={{
-        bgcolor: "#white",
+        bgcolor: "white",
         color: "black",
         height: "125vh",
-        width: "100 % ",
-        border: "1px solid rgba(, 0, 0, 0.12)",
+        width: "100%",
+        border: "1px solid rgba(0, 0, 0, 0.12)",
       }}
     >
       <Navbar />
 
       <Routes>
+        <Route path="*" element={<Error />} />
+        <Route path="/" element={< DashBoard/>} />
         <Route path="/teachers-list" element={<TeacherList />} />
         <Route path="/add-teacher" element={<AddTeacher />} />
         <Route path="/add-course" element={<AddCourse />} />

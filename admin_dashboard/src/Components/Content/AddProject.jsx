@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import '../Styles/Layout.css'
 
 const AddProject = () => {
   const [title, setTitle] = useState("");
@@ -29,20 +30,20 @@ const AddProject = () => {
           },
         }
       );
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Success response", data);
-        setSnackbarMessage("Teacher added successfully!");
-        setSnackbarSeverity("success");
-        setSnackbarOpen(true);
-        setTitle("");
-        setDescription("");
-      } else {
-        console.error("Error response", response);
-        setSnackbarMessage("Failed to add teacher. Please try again.");
-        setSnackbarSeverity("error");
-        setSnackbarOpen(true);
-      }
+     if (response.ok) {
+       const data = await response.json();
+       console.log("Success response", data);
+       setSnackbarMessage("Project added successfully!");
+       setSnackbarSeverity("success");
+       setSnackbarOpen(true);
+       setTitle("");
+       setDescription("");
+     } else {
+       console.error("Error response", response);
+       setSnackbarMessage("Failed to add project. Please try again.");
+       setSnackbarSeverity("error");
+       setSnackbarOpen(true);
+     }
     } catch (error) {
       console.error("Error while adding the project:", error);
       alert("There was an error while adding the project.");
@@ -54,24 +55,30 @@ const AddProject = () => {
   };
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
-      <Stack direction="row" spacing={2} mb={1}>
+    <Box className = "add-project-container"
+     
+    >
+      <Stack
+        direction="row"
+        spacing={2}
+        mb={2}
+        className="add-project-links"
+       
+      >
         <Link to="/add-project" style={{ textDecoration: "none" }}>
-          <Typography variant="h6" color="primary">
+          <Typography variant="h6" color="primary" sx={{ fontWeight: 500 }}>
             Add Project
           </Typography>
         </Link>
         <Link to="/project-list" style={{ textDecoration: "none" }}>
-          <Typography variant="h6" color="primary">
+          <Typography variant="h6" color="primary" sx={{ fontWeight: 500 }}>
             Project List
           </Typography>
         </Link>
       </Stack>
       <Box
-        p={4}
-        width="400px"
-        border="2px solid rgba(0, 0, 0, 0.12)"
-        borderRadius="8px"
+        className="add-project-box"
+        
       >
         <Stack spacing={2}>
           <TextField
@@ -89,6 +96,7 @@ const AddProject = () => {
             onChange={(e) => setDescription(e.target.value)}
           />
           <Button
+            className="add-project-btn"
             variant="contained"
             color="secondary"
             fullWidth

@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import '../Styles/Layout.css'
 
 const AddTeam = () => {
   const [name, setName] = useState("");
@@ -34,7 +35,6 @@ const AddTeam = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("Succes response", data);
-        // alert("Team added succesfully");
         setSnackbarMessage("Teacher added successfully!");
         setSnackbarSeverity("success");
         setSnackbarOpen(true);
@@ -58,24 +58,30 @@ const AddTeam = () => {
   };
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
-      <Stack direction="row" spacing={2} mb={1}>
+    <Box
+      className="add-team-container"
+      
+    >
+      <Stack
+        direction="row"
+        spacing={2}
+        mb={2}
+         className="add-team-links"
+       >
         <Link to="/add-team" style={{ textDecoration: "none" }}>
-          <Typography variant="h6" color="primary">
+          <Typography variant="h6" color="primary" sx={{ fontWeight: 500 }}>
             Add Team
           </Typography>
         </Link>
         <Link to="/team-list" style={{ textDecoration: "none" }}>
-          <Typography variant="h6" color="primary">
+          <Typography variant="h6" color="primary" sx={{ fontWeight: 500 }}>
             Team List
           </Typography>
         </Link>
       </Stack>
       <Box
-        p={4}
-        width="400px"
-        border="2px solid rgba(0, 0, 0, 0.12)"
-        borderRadius="8px"
+        className="add-team-box"
+       
       >
         <Stack spacing={2}>
           <TextField
@@ -104,6 +110,7 @@ const AddTeam = () => {
             <input type="file" hidden />
           </Button> */}
           <Button
+            className="add-team-btn"
             variant="contained"
             color="secondary"
             fullWidth

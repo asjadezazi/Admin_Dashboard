@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import '../Styles/Layout.css'
 
 const AddCourse = () => {
   const [title, setTitle] = useState("");
@@ -32,7 +33,7 @@ const AddCourse = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("Succes response:", data);
-        setSnackbarMessage("Course Added succesfully!!");
+        setSnackbarMessage("Course Added successfully!!");
         setSnackbarSeverity("success");
         setSnackbarOpen(true);
 
@@ -40,7 +41,7 @@ const AddCourse = () => {
         setDescription("");
       } else {
         console.log("error message");
-        setSnackbarMessage("failed to add course.please try again later");
+        setSnackbarMessage("Failed to add course. Please try again later.");
         setSnackbarSeverity("error");
         setSnackbarOpen(true);
       }
@@ -54,43 +55,20 @@ const AddCourse = () => {
   };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      mt={4}
-      justifyContent="center"
-    >
-      <Stack
-        direction="row"
-        spacing={2}
-        mb={2}
-        sx={{
-          width: "100%",
-          justifyContent: "flex-start", // Aligns items starting from the left
-          paddingLeft: "20px", // Shifts the links to the right
-        }}
-      >
+    <Box className="add-course-container">
+      <Stack direction="row" spacing={2} className="add-course-links">
         <Link to="/add-course" style={{ textDecoration: "none" }}>
-          <Typography variant="h6" color="primary" sx={{ fontWeight: 600 }}>
+          <Typography variant="h6" color="primary" sx={{ fontWeight:500 }}>
             Add Course
           </Typography>
         </Link>
         <Link to="/course-list" style={{ textDecoration: "none" }}>
-          <Typography variant="h6" color="primary" sx={{ fontWeight: 600 }}>
+          <Typography variant="h6" color="primary" sx={{ fontWeight: 500 }}>
             Course List
           </Typography>
         </Link>
       </Stack>
-      <Box
-        p={{ xs: 2, sm: 3 }}
-        width={{ xs: "100%", sm: "350px" }}
-        border="2px solid rgba(0, 0, 0, 0.12)"
-        borderRadius="8px"
-        sx={{
-          maxWidth: "100%",
-        }}
-      >
+      <Box className="add-course-box">
         <Stack spacing={2}>
           <TextField
             label="Title"
@@ -106,14 +84,14 @@ const AddCourse = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
-          <Button variant="contained" component="label">
+          {/* <Button variant="contained" component="label">
             Upload Photo
             <input type="file" hidden />
-          </Button>
+          </Button> */}
           <Button
+            className="add-course-btn"
             variant="contained"
             color="secondary"
-            fullWidth
             onClick={handleAddCourse}
           >
             Submit

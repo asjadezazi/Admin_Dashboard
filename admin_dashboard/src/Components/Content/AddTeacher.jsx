@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import '../Styles/Layout.css'
 
 const AddTeacher = () => {
   const [name, setName] = useState("");
@@ -18,7 +19,8 @@ const AddTeacher = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent the form from refreshing the page
     try {
       const response = await fetch(
         "http://localhost:4000/api/coaching/createTeacher",
@@ -38,18 +40,21 @@ const AddTeacher = () => {
         setSnackbarSeverity("success");
         setSnackbarOpen(true);
 
-        // Clear the input fields after successful submission
         setName("");
         setDesignation("");
         setQualification("");
       } else {
-        console.log("Error response");
+        const errorData = await response.json();
+        console.log("Error response:", errorData);
         setSnackbarMessage("Failed to add teacher. Please try again.");
         setSnackbarSeverity("error");
         setSnackbarOpen(true);
       }
-    } catch {
-      console.log("error");
+    } catch (error) {
+      console.log("Error:", error);
+      setSnackbarMessage("An error occurred. Please try again.");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
     }
   };
 
@@ -59,42 +64,30 @@ const AddTeacher = () => {
 
   return (
     <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      mt={4}
+      className="add-teacher-container"
+     
     >
       <Stack
         direction="row"
         spacing={2}
         mb={2}
-        sx={{
-          width: "100%",
-          justifyContent: "flex-start", // Aligns items starting from the left
-          paddingLeft: "20px", // Shifts the links to the right
-        }}
+        className="add-teacher-links"
+        
       >
         <Link to="/add-teacher" style={{ textDecoration: "none" }}>
-          <Typography variant="h6" color="primary" sx={{ fontWeight: 600 }}>
+          <Typography variant="h6" color="primary" sx={{ fontWeight: 500 }}>
             Add Teacher
           </Typography>
         </Link>
         <Link to="/teachers-list" style={{ textDecoration: "none" }}>
-          <Typography variant="h6" color="primary" sx={{ fontWeight: 600 }}>
+          <Typography variant="h6" color="primary" sx={{ fontWeight: 500 }}>
             Teacher List
           </Typography>
         </Link>
       </Stack>
       <Box
-        p={{ xs: 2, sm: 3 }}
-        width={{ xs: "100%", sm: "350px" }}
-        border="2px solid rgba(0, 0, 0, 0.12)"
-        borderRadius="8px"
-        sx={{
-          maxWidth: "100%", 
-        }}
-      >
+        className= "add-teacher-box"
+        >
         <Stack spacing={2}>
           <TextField
             label="Name"
@@ -118,6 +111,7 @@ const AddTeacher = () => {
             onChange={(e) => setQualification(e.target.value)}
           />
           <Button
+            className="add-teacher-btn"
             variant="contained"
             color="secondary"
             fullWidth

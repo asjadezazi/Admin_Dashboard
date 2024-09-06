@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Stack,
   TextField,
@@ -10,7 +10,11 @@ import {
   Alert,
   Menu,
   MenuItem,
+  InputAdornment,
+  IconButton,
+  useMediaQuery,
 } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -20,10 +24,11 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useTheme } from "@mui/material/styles";
 
 const columns = [
   { id: "name", label: "Name", minWidth: 150 },
-  { id: "background", label: "Background", minWidth: 150 },
+  { id: "background", label: "Background", minWidth: 200 },
   { id: "designation", label: "Designation", minWidth: 150 },
   { id: "operations", label: "Operations", minWidth: 100 },
 ];
@@ -38,7 +43,7 @@ const TeamList = () => {
   const [newTeam, setNewTeam] = useState({
     id: "",
     name: "",
-    background: "",
+    background:"",
     designation: "",
   });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -46,29 +51,44 @@ const TeamList = () => {
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedRow, setSelectedRow] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  // Refactored fetchTeachers using useCallback
+  const fetchTeam = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        searchQuery
+          ? `http://localhost:4000/api/ITservices/searchTeams/${encodeURIComponent(
+              searchQuery
+            )}`
+          : `http://localhost:4000/api/ITservices/listTeam?page=${
+              page + 1
+            }&limit=${rowsPerPage}`
+      );
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
+      const result = await response.json();
+      console.log("Fetched result:", result); // Debug log
+      setRows(result.data || result);
+      setTotal(result.total || (result.data ? result.data.length : 0));
+    } catch (error) {
+      console.error("Error fetching team data:", error);
+      setSnackbarMessage("Failed to fetch team. Please try again.");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
+    } finally {
+      setLoading(false);
+    }
+  }, [page, rowsPerPage, searchQuery]);
+
+  // Initial fetch and on dependencies change
   useEffect(() => {
-    const fetchTeam = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(
-          `http://localhost:4000/api/ITservices/listTeam?page=${
-            page + 1
-          }&limit=${rowsPerPage}`
-        );
-        if (!response.ok)
-          throw new Error(`HTTP error! status:${response.status}`);
-        const result = await response.json();
-        setRows(result.data);
-        setTotal(result.total);
-      } catch (error) {
-        console.log("Error fetching team list:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchTeam();
-  }, [page, rowsPerPage]);
+  }, [fetchTeam]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -79,8 +99,8 @@ const TeamList = () => {
     setPage(0);
   };
 
-  const handleTeam = (e) => {
-    const { name, value } = e.target;
+  const handleTeam = (event) => {
+    const { name, value } = event.target;
     setNewTeam((prevState) => ({
       ...prevState,
       [name]: value,
@@ -112,20 +132,19 @@ const TeamList = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
 
       const result = await response.json();
+      console.log("Teacher operation result:", result);
 
       setSnackbarMessage(
         currentView === "edit"
-          ? " Team  updadated successfully!"
-          : "Team added successfully!"
+          ? "Team member updated successfully!"
+          : "Team member added successfully!"
       );
       setSnackbarSeverity("success");
       setSnackbarOpen(true);
 
-      if (currentView === "edit") {
-        setRows(rows.map((row) => (row._id === result._id ? result : row)));
-      } else {
-        setRows([...rows, result.team]);
-      }
+      // Refetch the teachers to get the updated list
+      // Optionally, you can optimize by updating the state manually as you did before
+      await fetchTeam();
 
       setNewTeam({
         id: "",
@@ -135,7 +154,8 @@ const TeamList = () => {
       });
       setCurrentView("list");
     } catch (error) {
-      console.error("Error processing project:", error);
+      console.error("Error processing teamlist:", error);
+
       setSnackbarMessage(
         currentView === "edit"
           ? "Error updating teamlist. Please try again."
@@ -146,18 +166,15 @@ const TeamList = () => {
     }
   };
 
-  const handleSnackbarClose = () => {
+  const handleSnackCloseTeam = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
     setSnackbarOpen(false);
   };
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-  };
-
-  const handleMenuClick = (event, row) => {
-    setAnchorEl(event.currentTarget);
-    setSelectedRow(row);
-    console.log("Menu opened for row:", row); // Debugging
   };
 
   const handleEdit = () => {
@@ -169,13 +186,18 @@ const TeamList = () => {
         designation: selectedRow.designation,
       });
       setCurrentView("edit");
-      handleMenuClose();
     }
+    handleMenuClose();
   };
 
-  const handleDelete = async () => {
+  const handleMenuClick = (event, row) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedRow(row);
+  };
+
+  const handleDeleteTeam = async () => {
     if (!selectedRow || !selectedRow._id) {
-      console.log("No row selected or ID is undefined"); // Debugging info
+      console.log("No row selected or ID is undefined");
       return;
     }
 
@@ -188,16 +210,17 @@ const TeamList = () => {
         }
       );
 
-      if (!response.ok) {
+      if (!response.ok)
         throw new Error(`HTTP error! status: ${response.status}`);
-      }
 
-      // Remove the deleted row from the table
-      setRows(rows.filter((row) => row._id !== selectedRow._id));
       setSnackbarMessage("Team member successfully deleted.");
       setSnackbarSeverity("success");
       setSnackbarOpen(true);
-    } catch {
+
+      // Refetch the teachers to get the updated list
+      await fetchTeam();
+    } catch (error) {
+      console.error("Error deleting team member:", error);
       setSnackbarMessage("Error deleting team member.");
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
@@ -206,9 +229,23 @@ const TeamList = () => {
     }
   };
 
+  const handleSearchChangeforTeamList = (event) => {
+    setSearchQuery(event.target.value);
+    setPage(0);
+  };
+
   return (
     <Box sx={{ width: "100%" }}>
-      <Box sx={{ display: "flex", justifyContent: "center", gap: 3, mt: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: isSmallScreen ? "center" : "space-between",
+          flexDirection: isSmallScreen ? "column" : "row",
+          gap: isSmallScreen ? 2 : 0,
+          mt: 2,
+          mb: 2,
+        }}
+      >
         <Link
           component="button"
           variant="body1"
@@ -217,6 +254,7 @@ const TeamList = () => {
           sx={{
             cursor: "pointer",
             fontWeight: currentView === "list" ? "bold" : "normal",
+            color: currentView === "list" ? "primary.main" : "text.primary",
           }}
         >
           Team List
@@ -229,14 +267,42 @@ const TeamList = () => {
           sx={{
             cursor: "pointer",
             fontWeight: currentView === "add" ? "bold" : "normal",
+            color: currentView === "add" ? "primary.main" : "text.primary",
           }}
         >
           Add Team
         </Link>
       </Box>
+      <TextField
+        variant="outlined"
+        size="small"
+        placeholder="Search..."
+        value={searchQuery}
+        onChange={handleSearchChangeforTeamList}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton edge="end">
+                <SearchIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+        sx={{ width: isSmallScreen ? "100%" : "300px" }}
+      />
 
       {currentView === "list" && (
-        <Paper sx={{ width: "96%", overflow: "hidden", ml: 2, mt: 4 }}>
+        <Paper
+          sx={{
+            width: "100%",
+            overflow: "hidden",
+            mt: 4,
+            border: "1px solid",
+            borderColor: theme.palette.divider,
+            borderRadius: 1,
+            padding: isSmallScreen ? 2 : 4,
+          }}
+        >
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
@@ -259,7 +325,7 @@ const TeamList = () => {
                       Loading...
                     </TableCell>
                   </TableRow>
-                ) : (
+                ) : rows.length > 0 ? (
                   rows
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, index) => (
@@ -267,7 +333,7 @@ const TeamList = () => {
                         hover
                         role="checkbox"
                         tabIndex={-1}
-                        key={row.id || index}
+                        key={row.id || row._id || index}
                       >
                         {columns.map((column) => {
                           const value = row[column.id];
@@ -284,13 +350,16 @@ const TeamList = () => {
                                 </Button>
                                 <Menu
                                   anchorEl={anchorEl}
-                                  open={Boolean(anchorEl)}
+                                  open={
+                                    Boolean(anchorEl) &&
+                                    selectedRow?._id === row._id
+                                  }
                                   onClose={handleMenuClose}
                                 >
                                   <MenuItem onClick={handleEdit}>
                                     <EditIcon sx={{ mr: 1 }} /> Edit
                                   </MenuItem>
-                                  <MenuItem onClick={handleDelete}>
+                                  <MenuItem onClick={handleDeleteTeam}>
                                     <DeleteIcon sx={{ mr: 1 }} /> Delete
                                   </MenuItem>
                                 </Menu>
@@ -299,18 +368,26 @@ const TeamList = () => {
                           }
                           return (
                             <TableCell key={column.id} align={column.align}>
-                              {value}
+                              {value !== undefined && value !== null
+                                ? value
+                                : "N/A"}
                             </TableCell>
                           );
                         })}
                       </TableRow>
                     ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={columns.length} align="center">
+                      No team member found.
+                    </TableCell>
+                  </TableRow>
                 )}
               </TableBody>
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[5, 10, 25, 35]}
             component="div"
             count={total}
             rowsPerPage={rowsPerPage}
@@ -338,6 +415,7 @@ const TeamList = () => {
                   name="name"
                   value={newTeam.name}
                   onChange={handleTeam}
+                  required
                 />
                 <TextField
                   label="Background"
@@ -346,6 +424,7 @@ const TeamList = () => {
                   name="background"
                   value={newTeam.background}
                   onChange={handleTeam}
+                  required
                 />
                 <TextField
                   label="Designation"
@@ -354,6 +433,7 @@ const TeamList = () => {
                   name="designation"
                   value={newTeam.designation}
                   onChange={handleTeam}
+                  required
                 />
 
                 <Button
@@ -373,11 +453,11 @@ const TeamList = () => {
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
-        onClose={handleSnackbarClose}
+        onClose={handleSnackCloseTeam}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <Alert
-          onClose={handleSnackbarClose}
+          onClose={handleSnackCloseTeam}
           severity={snackbarSeverity}
           sx={{ width: "100%" }}
         >
@@ -387,4 +467,5 @@ const TeamList = () => {
     </Box>
   );
 };
+
 export default TeamList;

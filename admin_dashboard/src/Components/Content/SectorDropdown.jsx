@@ -11,8 +11,32 @@ export default function Layout() {
     console.log("Link clicked:", e.target.textContent);
   };
 
+  const linkStyle = {
+    textDecoration: "none",
+    color: "#1976d2",
+    fontWeight: "500",
+    "&:hover": {
+      color: "#1565c0",
+    },
+  };
+
+  const dashboardLinkStyle = {
+    textDecoration: "none",
+    marginLeft: "15px",
+    
+  };
+
   return (
     <Box sx={{ p: { xs: 1, sm: 2 }, mt: { xs: 1, sm: 2 } }}>
+      <Accordion sx={{ mb: { xs: 1, sm: 2 }, "&:hover": { boxShadow: 10 } }}>
+        <Typography variant="h6">
+          
+            <Link to="/" onClick={handleLinkClick} style={dashboardLinkStyle}>
+              DashBoard
+            </Link>
+        </Typography>
+      </Accordion>
+
       <Accordion sx={{ mb: { xs: 1, sm: 2 }, "&:hover": { boxShadow: 10 } }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -22,55 +46,27 @@ export default function Layout() {
           <Typography variant="h6">Coaching</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography sx={{ mb: { xs: 0.5, sm: 1 } }}>
-            <Link
-              to="/add-teacher"
-              onClick={handleLinkClick}
-              style={{
-                textDecoration: "none",
-                color: "#1976d2",
-                "&:hover": { color: "#1565c0" },
-              }}
-            >
+          <Typography>
+            <Link to="/add-teacher" onClick={handleLinkClick} style={linkStyle}>
               Add Teacher
             </Link>
           </Typography>
-          <Typography sx={{ mb: { xs: 0.5, sm: 1 } }}>
+          <Typography>
             <Link
               to="/teachers-list"
               onClick={handleLinkClick}
-              style={{
-                textDecoration: "none",
-                color: "#1976d2",
-                "&:hover": { color: "#1565c0" },
-              }}
+              style={linkStyle}
             >
               Teacher List
             </Link>
           </Typography>
-          <Typography sx={{ mb: { xs: 0.5, sm: 1 } }}>
-            <Link
-              to="/add-course"
-              onClick={handleLinkClick}
-              style={{
-                textDecoration: "none",
-                color: "#1976d2",
-                "&:hover": { color: "#1565c0" },
-              }}
-            >
+          <Typography>
+            <Link to="/add-course" onClick={handleLinkClick} style={linkStyle}>
               Add Course
             </Link>
           </Typography>
-          <Typography sx={{ mb: { xs: 0.5, sm: 1 } }}>
-            <Link
-              to="/course-list"
-              onClick={handleLinkClick}
-              style={{
-                textDecoration: "none",
-                color: "#1976d2",
-                "&:hover": { color: "#1565c0" },
-              }}
-            >
+          <Typography>
+            <Link to="/course-list" onClick={handleLinkClick} style={linkStyle}>
               Course List
             </Link>
           </Typography>
@@ -86,55 +82,27 @@ export default function Layout() {
           <Typography variant="h6">IT Sector</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography sx={{ mb: { xs: 0.5, sm: 1 } }}>
-            <Link
-              to="/add-project"
-              onClick={handleLinkClick}
-              style={{
-                textDecoration: "none",
-                color: "#1976d2",
-                "&:hover": { color: "#1565c0" },
-              }}
-            >
+          <Typography>
+            <Link to="/add-project" onClick={handleLinkClick} style={linkStyle}>
               Add Project
             </Link>
           </Typography>
-          <Typography sx={{ mb: { xs: 0.5, sm: 1 } }}>
+          <Typography>
             <Link
               to="/project-list"
               onClick={handleLinkClick}
-              style={{
-                textDecoration: "none",
-                color: "#1976d2",
-                "&:hover": { color: "#1565c0" },
-              }}
+              style={linkStyle}
             >
               Project List
             </Link>
           </Typography>
-          <Typography sx={{ mb: { xs: 0.5, sm: 1 } }}>
-            <Link
-              to="/add-team"
-              onClick={handleLinkClick}
-              style={{
-                textDecoration: "none",
-                color: "#1976d2",
-                "&:hover": { color: "#1565c0" },
-              }}
-            >
+          <Typography>
+            <Link to="/add-team" onClick={handleLinkClick} style={linkStyle}>
               Add Team
             </Link>
           </Typography>
-          <Typography sx={{ mb: { xs: 0.5, sm: 1 } }}>
-            <Link
-              to="/team-list"
-              onClick={handleLinkClick}
-              style={{
-                textDecoration: "none",
-                color: "#1976d2",
-                "&:hover": { color: "#1565c0" },
-              }}
-            >
+          <Typography>
+            <Link to="/team-list" onClick={handleLinkClick} style={linkStyle}>
               Team List
             </Link>
           </Typography>
@@ -147,10 +115,10 @@ export default function Layout() {
           aria-controls="panel3-content"
           id="panel3-header"
         >
-          <Typography variant="h6">Social App </Typography>
+          <Typography variant="h6">Social App</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography sx={{ mb: { xs: 0.5, sm: 1 } }}>Social App</Typography>
+          <Typography>Social App</Typography>
           <Typography>Service</Typography>
         </AccordionDetails>
       </Accordion>
