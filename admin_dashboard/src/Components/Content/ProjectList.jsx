@@ -25,6 +25,7 @@ import TableRow from "@mui/material/TableRow";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useTheme } from "@mui/material/styles";
+import '../Styles/Layout.css'
 
 const columns = [
   { id: "title", label: "Title", minWidth: 150 },
@@ -231,61 +232,48 @@ const ProjectList = () => {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: isSmallScreen ? "center" : "space-between",
-          flexDirection: isSmallScreen ? "column" : "row",
-          gap: isSmallScreen ? 2 : 0,
-          mt: 2,
-          mb: 2,
-        }}
-      >
-        <Link
-          component="button"
-          variant="body1"
-          underline="hover"
-          onClick={() => setCurrentView("list")}
-          sx={{
-            cursor: "pointer",
-            fontWeight: currentView === "list" ? "bold" : "normal",
-            color: currentView === "list" ? "primary.main" : "text.primary",
+    <Box className="project-list-container">
+      <Box className="project-flex-container">
+        <Box className="project-links-container">
+          <Link
+            component="button"
+            variant="body1"
+            underline="hover"
+            onClick={() => setCurrentView("list")}
+            className={`project-link${currentView === "list" ? "active" : ""}`}
+          >
+            Project List
+          </Link>
+          <Link
+            component="button"
+            variant="body1"
+            underline="hover"
+            onClick={() => setCurrentView("add")}
+            className={`project-nav-link${
+              currentView === "add" ? "active" : ""
+            }`}
+          >
+            Add Project
+          </Link>
+        </Box>
+        <TextField
+          variant="outlined"
+          size="small"
+          placeholder="Search..."
+          value={searchQuery}
+          onChange={handleSearchChangeforProject}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton edge="end">
+                  <SearchIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
           }}
-        >
-          Project List
-        </Link>
-        <Link
-          component="button"
-          variant="body1"
-          underline="hover"
-          onClick={() => setCurrentView("add")}
-          sx={{
-            cursor: "pointer",
-            fontWeight: currentView === "add" ? "bold" : "normal",
-            color: currentView === "add" ? "primary.main" : "text.primary",
-          }}
-        >
-          Add Project
-        </Link>
+          className="project-search-bar"
+        />
       </Box>
-      <TextField
-        variant="outlined"
-        size="small"
-        placeholder="Search..."
-        value={searchQuery}
-        onChange={handleSearchChangeforProject}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton edge="end">
-                <SearchIcon />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-        sx={{ width: isSmallScreen ? "100%" : "300px" }}
-      />
 
       {currentView === "list" && (
         <Paper
@@ -395,13 +383,8 @@ const ProjectList = () => {
       )}
 
       {(currentView === "add" || currentView === "edit") && (
-        <Box display="flex" flexDirection="column" alignItems="center" mt={5}>
-          <Box
-            p={4}
-            width="400px"
-            border="2px solid rgba(0, 0, 0, 0.12)"
-            borderRadius="8px"
-          >
+        <Box className="project=form-container">
+          <Box className="project-form-box"  >
             <form onSubmit={handleProjectList}>
               <Stack spacing={2}>
                 <TextField
@@ -427,7 +410,7 @@ const ProjectList = () => {
                   type="submit"
                   variant="contained"
                   color="secondary"
-                  fullWidth
+                  className="project-submit-button"
                 >
                   {currentView === "edit" ? "Update" : "Submit"}
                 </Button>

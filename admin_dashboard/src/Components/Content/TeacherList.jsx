@@ -12,7 +12,7 @@ import {
   MenuItem,
   InputAdornment,
   IconButton,
-  useMediaQuery,
+  // useMediaQuery,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import Table from "@mui/material/Table";
@@ -24,7 +24,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useTheme } from "@mui/material/styles";
+// import { useTheme } from "@mui/material/styles";
 import '../Styles/Layout.css'
 
 const columns = [
@@ -54,8 +54,8 @@ const TeacherList = () => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  // const theme = useTheme();
+  // const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   // Refactored fetchTeachers using useCallback
   const fetchTeachers = useCallback(async () => {

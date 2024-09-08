@@ -114,62 +114,624 @@
 /*addteam css end*/
 
 
+/* teacherlist css start*/
 
-/*teacherlist css start */
-
-/* Container */
-/* Container */
 .teacher-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Flex container for the links and search bar */
+.flex-container {
+  display: flex;
+  justify-content: space-between;
   width: 100%;
-}
-
-/* Navigation Links */
-.nav-link {
-  cursor: pointer;
-  font-weight: normal;
-  color: var(--text-primary);
-  padding: 8px;
-  gap: 12;
-display: flex;
-  margin-right: 16px;
-  text-transform: uppercase;
-  /* transition: color 0.3s ease, font-weight 0.3s ease; */
-}
-
-.nav-link.active {
-  font-weight: bold;
-  color: var(--primary-main);
+  margin-bottom: 20px;
 }
 
 .links-container {
   display: flex;
-  align-items: center;
+  gap: 20px;
 }
 
-/* Flexbox for links and search bar */
-.flex-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
+.nav-link {
+  cursor: pointer;
+  padding: 8px;
+  font-weight: 500;
+  color: #333;
 }
 
-/* Search Bar */
+.nav-link.active {
+  color: #1976d2;
+  font-weight: bold;
+}
+
 .search-bar {
   width: 300px;
-  transition: width 0.3s ease;
 }
 
-@media (max-width: 600px) {
+/* Table styles */
+.table-container {
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 20px;
+}
+
+.table-head-cell {
+  background-color: #f4f2f2;
+  font-weight: bold;
+  text-align: left;
+}
+
+.table-container .MuiTableCell-root {
+  padding: 16px;
+}
+
+.table-container .MuiTableRow-root:hover {
+  background-color: #f1f1f1;
+}
+
+/* Form container */
+.form-container {
+  display: flex;
+  justify-content: center;
+  height: auto;
+  width: 35%;
+  margin-top: 30px;
+  margin-right: 80px;
+}
+
+.form-box {
+  width: 100%;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.submit-button {
+  background-color: #1976d2;
+  color: white;
+  font-weight: bold;
+}
+
+.snackbar {
+  font-size: 1rem;
+}
+
+/* Media Queries for responsiveness */
+
+/* For tablets (width below 1024px) */
+@media (max-width: 1024px) {
   .flex-container {
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: 15px;
   }
-  .links-container {
-    justify-content: center;
+
+  .search-bar {
+    width: 80%;
   }
+
+  .form-container {
+    width: 50%;
+    margin-right: 0;
+  }
+
+  .table-container {
+    max-width: 100%;
+  }
+}
+
+/* For mobile devices (width below 768px) */
+@media (max-width: 768px) {
   .search-bar {
     width: 100%;
   }
+
+  .form-container {
+    width: 70%;
+  }
+
+  .table-head-cell {
+    font-size: 0.875rem;
+  }
+
+  .table-container .MuiTableCell-root {
+    padding: 8px;
+  }
 }
+
+/* For small mobile devices (width below 480px) */
+@media (max-width: 480px) {
+  .form-container {
+    width: 90%;
+  }
+
+  .search-bar {
+    width: 100%;
+  }
+
+  .nav-link {
+    font-size: 0.875rem;
+  }
+
+  .table-container .MuiTableCell-root {
+    padding: 4px;
+  }
+}
+
+/*teacherlist css end*/
+
+
+
+
+
+
+
+
+/* courselist css start*/
+
+.course-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Flex container for the links and search bar */
+.course-flex-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.course-links-container {
+  display: flex;
+  gap: 20px;
+}
+
+.course-nav-link {
+  cursor: pointer;
+  padding: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.course-nav-link.active {
+  color: #1976d2;
+  font-weight: bold;
+}
+
+.course-search-bar {
+  width: 300px;
+}
+
+/* Table styles */
+.course-table-container {
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 20px;
+}
+
+.course-table-head-cell {
+  background-color: #f4f2f2;
+  font-weight: bold;
+  text-align: left;
+}
+
+.course-table-container .MuiTableCell-root {
+  padding: 16px;
+}
+
+.course-table-container .MuiTableRow-root:hover {
+  background-color: #f1f1f1;
+}
+
+/* Form container */
+.course-form-container {
+  display: flex;
+  justify-content: center;
+  height: auto;
+  width: 35%;
+  margin-top: 30px;
+  margin-right: 80px;
+}
+
+.course-form-box {
+  width: 100%;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.course-submit-button {
+  background-color: #1976d2;
+  color: white;
+  font-weight: bold;
+}
+
+.snackbar {
+  font-size: 1rem;
+}
+
+/* Media Queries for responsiveness */
+
+/* For tablets (width below 1024px) */
+@media (max-width: 1024px) {
+  .course-flex-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .course-search-bar {
+    width: 80%;
+  }
+
+  .course-form-container {
+    width: 50%;
+    margin-right: 0;
+  }
+
+  .course-table-container {
+    max-width: 100%;
+  }
+}
+
+/* For mobile devices (width below 768px) */
+@media (max-width: 768px) {
+  .course-search-bar {
+    width: 100%;
+  }
+
+  .course-form-container {
+    width: 70%;
+  }
+
+  .course-table-head-cell {
+    font-size: 0.875rem;
+  }
+
+  .course-table-container .MuiTableCell-root {
+    padding: 8px;
+  }
+}
+
+/* For small mobile devices (width below 480px) */
+@media (max-width: 480px) {
+  .course-form-container {
+    width: 90%;
+  }
+
+  .course-search-bar {
+    width: 100%;
+  }
+
+  .course-nav-link {
+    font-size: 0.875rem;
+  }
+
+  .course-table-container .MuiTableCell-root {
+    padding: 4px;
+  }
+}
+
+/*courselist css end*/
+
+
+
+
+
+
+
+
+
+/* projectlist css start*/
+
+.project-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Flex container for the links and search bar */
+.project-flex-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.project-links-container {
+  display: flex;
+  gap: 20px;
+}
+
+.project-nav-link {
+  cursor: pointer;
+  padding: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.project-nav-link.active {
+  color: #1976d2;
+  font-weight: bold;
+}
+
+.project-search-bar {
+  width: 300px;
+}
+
+/* Table styles */
+.project-table-container {
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 20px;
+}
+
+.project-table-head-cell {
+  background-color: #f4f2f2;
+  font-weight: bold;
+  text-align: left;
+}
+
+.project-table-container .MuiTableCell-root {
+  padding: 16px;
+}
+
+.project-table-container .MuiTableRow-root:hover {
+  background-color: #f1f1f1;
+}
+
+/* Form container */
+.project-form-container {
+  display: flex;
+  justify-content: center;
+  height: auto;
+  width: 35%;
+  margin-top: 30px;
+  margin-right: 80px;
+}
+
+.project-form-box {
+  width: 100%;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.project-submit-button {
+  background-color: #1976d2;
+  color: white;
+  font-weight: bold;
+}
+
+.snackbar {
+  font-size: 1rem;
+}
+
+/* Media Queries for responsiveness */
+
+/* For tablets (width below 1024px) */
+@media (max-width: 1024px) {
+  .project-flex-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .project-search-bar {
+    width: 80%;
+  }
+
+  .project-form-container {
+    width: 50%;
+    margin-right: 0;
+  }
+
+  .project-table-container {
+    max-width: 100%;
+  }
+}
+
+/* For mobile devices (width below 768px) */
+@media (max-width: 768px) {
+  .project-search-bar {
+    width: 100%;
+  }
+
+  .project-form-container {
+    width: 70%;
+  }
+
+  .project-table-head-cell {
+    font-size: 0.875rem;
+  }
+
+  .project-table-container .MuiTableCell-root {
+    padding: 8px;
+  }
+}
+
+/* For small mobile devices (width below 480px) */
+@media (max-width: 480px) {
+  .project-form-container {
+    width: 90%;
+  }
+
+  .project-search-bar {
+    width: 100%;
+  }
+
+  .project-nav-link {
+    font-size: 0.875rem;
+  }
+
+  .project-table-container .MuiTableCell-root {
+    padding: 4px;
+  }
+}
+
+/*projectlist css end*/
+
+
+
+
+/* team css start*/
+
+.team-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Flex container for the links and search bar */
+.team-flex-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.team-links-container {
+  display: flex;
+  gap: 20px;
+}
+
+.team-nav-link {
+  cursor: pointer;
+  padding: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.team-nav-link.active {
+  color: #1976d2;
+  font-weight: bold;
+}
+
+.team-search-bar {
+  width: 300px;
+}
+
+/* Table styles */
+.team-table-container {
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 20px;
+}
+
+.team-table-head-cell {
+  background-color: #f4f2f2;
+  font-weight: bold;
+  text-align: left;
+}
+
+.team-table-container .MuiTableCell-root {
+  padding: 16px;
+}
+
+.team-table-container .MuiTableRow-root:hover {
+  background-color: #f1f1f1;
+}
+
+/* Form container */
+.team-form-container {
+  display: flex;
+  justify-content: center;
+  height: auto;
+  width: 35%;
+  margin-top: 30px;
+  margin-right: 80px;
+}
+
+.team-form-box {
+  width: 100%;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.team-submit-button {
+  background-color: #1976d2;
+  color: white;
+  font-weight: bold;
+}
+
+.snackbar {
+  font-size: 1rem;
+}
+
+/* Media Queries for responsiveness */
+
+/* For tablets (width below 1024px) */
+@media (max-width: 1024px) {
+  .team-flex-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .team-search-bar {
+    width: 80%;
+  }
+
+  .team-form-container {
+    width: 50%;
+    margin-right: 0;
+  }
+
+  .team-table-container {
+    max-width: 100%;
+  }
+}
+
+/* For mobile devices (width below 768px) */
+@media (max-width: 768px) {
+  .team-search-bar {
+    width: 100%;
+  }
+
+  .team-form-container {
+    width: 70%;
+  }
+
+  .team-table-head-cell {
+    font-size: 0.875rem;
+  }
+
+  .team-table-container .MuiTableCell-root {
+    padding: 8px;
+  }
+}
+
+/* For small mobile devices (width below 480px) */
+@media (max-width: 480px) {
+  .team-form-container {
+    width: 90%;
+  }
+
+  .team-search-bar {
+    width: 100%;
+  }
+
+  .team-nav-link {
+    font-size: 0.875rem;
+  }
+
+  .team-table-container .MuiTableCell-root {
+    padding: 4px;
+  }
+}
+
+/*team css end*/
