@@ -12,7 +12,7 @@ import {
   MenuItem,
   InputAdornment,
   IconButton,
-  useMediaQuery,
+  // useMediaQuery,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import Table from "@mui/material/Table";
@@ -24,7 +24,8 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useTheme } from "@mui/material/styles";
+// import { useTheme } from "@mui/material/styles";
+import '../Styles/Layout.css'
 
 const columns = [
   { id: "title", label: "Title", minWidth: 150 },
@@ -52,8 +53,8 @@ const CourseList = () => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  // const theme = useTheme();
+  // const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   // Refactored fetchTeachers using useCallback
   const fetchCourse = useCallback(async () => {
@@ -231,27 +232,15 @@ const CourseList = () => {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: isSmallScreen ? "center" : "space-between",
-          flexDirection: isSmallScreen ? "column" : "row",
-          gap: isSmallScreen ? 2 : 0,
-          mt: 2,
-          mb: 2,
-        }}
-      >
+    <Box  className="course-list-container">
+      <Box className="course-flex-container">
+        <Box className="course-links-container">
         <Link
           component="button"
           variant="body1"
           underline="hover"
           onClick={() => setCurrentView("list")}
-          sx={{
-            cursor: "pointer",
-            fontWeight: currentView === "list" ? "bold" : "normal",
-            color: currentView === "list" ? "primary.main" : "text.primary",
-          }}
+          className={`course-nav-link${currentView === "list"?"active":""}`}
         >
           Course List
         </Link>
@@ -260,15 +249,12 @@ const CourseList = () => {
           variant="body1"
           underline="hover"
           onClick={() => setCurrentView("add")}
-          sx={{
-            cursor: "pointer",
-            fontWeight: currentView === "add" ? "bold" : "normal",
-            color: currentView === "add" ? "primary.main" : "text.primary",
-          }}
+          className={`course-nav-link${currentView === "add"?"active":""}`}
         >
           Add Course
         </Link>
       </Box>
+
       <TextField
         variant="outlined"
         size="small"
@@ -284,21 +270,12 @@ const CourseList = () => {
             </InputAdornment>
           ),
         }}
-        sx={{ width: isSmallScreen ? "100%" : "300px" }}
-      />
+
+        className="course-search-bar"/>
+      </Box>
 
       {currentView === "list" && (
-        <Paper
-          sx={{
-            width: "100%",
-            overflow: "hidden",
-            mt: 4,
-            border: "1px solid",
-            borderColor: theme.palette.divider,
-            borderRadius: 1,
-            padding: isSmallScreen ? 2 : 4,
-          }}
-        >
+        <Paper className="course-table-container">
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
@@ -307,7 +284,7 @@ const CourseList = () => {
                     <TableCell
                       key={column.id}
                       align={column.align || "left"}
-                      style={{ minWidth: column.minWidth }}
+                     className="course-table-head-cell"
                     >
                       {column.label}
                     </TableCell>
@@ -395,13 +372,8 @@ const CourseList = () => {
       )}
 
       {(currentView === "add" || currentView === "edit") && (
-        <Box display="flex" flexDirection="column" alignItems="center" mt={5}>
-          <Box
-            p={4}
-            width="400px"
-            border="2px solid rgba(0, 0, 0, 0.12)"
-            borderRadius="8px"
-          >
+        <Box className="course-form-container">
+          <Box className="course-form-box">
             <form onSubmit={handleCourseList}>
               <Stack spacing={2}>
                 <TextField
@@ -428,7 +400,7 @@ const CourseList = () => {
                   type="submit"
                   variant="contained"
                   color="secondary"
-                  fullWidth
+                className="course-submit-button"
                 >
                   {currentView === "edit" ? "Update" : "Submit"}
                 </Button>

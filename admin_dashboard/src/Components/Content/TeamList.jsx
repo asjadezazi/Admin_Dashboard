@@ -25,6 +25,7 @@ import TableRow from "@mui/material/TableRow";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useTheme } from "@mui/material/styles";
+import '../Styles/Layout.css'
 
 const columns = [
   { id: "name", label: "Name", minWidth: 150 },
@@ -235,73 +236,49 @@ const TeamList = () => {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: isSmallScreen ? "center" : "space-between",
-          flexDirection: isSmallScreen ? "column" : "row",
-          gap: isSmallScreen ? 2 : 0,
-          mt: 2,
-          mb: 2,
-        }}
-      >
-        <Link
-          component="button"
-          variant="body1"
-          underline="hover"
-          onClick={() => setCurrentView("list")}
-          sx={{
-            cursor: "pointer",
-            fontWeight: currentView === "list" ? "bold" : "normal",
-            color: currentView === "list" ? "primary.main" : "text.primary",
+    <Box className="team-list-container">
+      <Box className="team-flex-container">
+        <Box className="team-links-container">
+          <Link
+            component="button"
+            variant="body1"
+            underline="hover"
+            onClick={() => setCurrentView("list")}
+            className={`team-nav-link${currentView === "list"?"active":""}`}
+          >
+            Team List
+          </Link>
+          <Link
+            component="button"
+            variant="body1"
+            underline="hover"
+            onClick={() => setCurrentView("add")}
+            className={`team-nav-link${currentView === "add"?"active":""}`}
+          >
+            Add Team
+          </Link>
+        </Box>
+        <TextField
+          variant="outlined"
+          size="small"
+          placeholder="Search..."
+          value={searchQuery}
+          onChange={handleSearchChangeforTeamList}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton edge="end">
+                  <SearchIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
           }}
-        >
-          Team List
-        </Link>
-        <Link
-          component="button"
-          variant="body1"
-          underline="hover"
-          onClick={() => setCurrentView("add")}
-          sx={{
-            cursor: "pointer",
-            fontWeight: currentView === "add" ? "bold" : "normal",
-            color: currentView === "add" ? "primary.main" : "text.primary",
-          }}
-        >
-          Add Team
-        </Link>
+          className="team-search-bar"
+        />
       </Box>
-      <TextField
-        variant="outlined"
-        size="small"
-        placeholder="Search..."
-        value={searchQuery}
-        onChange={handleSearchChangeforTeamList}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton edge="end">
-                <SearchIcon />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-        sx={{ width: isSmallScreen ? "100%" : "300px" }}
-      />
-
       {currentView === "list" && (
         <Paper
-          sx={{
-            width: "100%",
-            overflow: "hidden",
-            mt: 4,
-            border: "1px solid",
-            borderColor: theme.palette.divider,
-            borderRadius: 1,
-            padding: isSmallScreen ? 2 : 4,
-          }}
+         className="team-table-container"
         >
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
@@ -311,7 +288,7 @@ const TeamList = () => {
                     <TableCell
                       key={column.id}
                       align={column.align || "left"}
-                      style={{ minWidth: column.minWidth }}
+                      className="team-table-head-cell"
                     >
                       {column.label}
                     </TableCell>
@@ -399,13 +376,8 @@ const TeamList = () => {
       )}
 
       {(currentView === "add" || currentView === "edit") && (
-        <Box display="flex" flexDirection="column" alignItems="center" mt={5}>
-          <Box
-            p={4}
-            width="400px"
-            border="2px solid rgba(0, 0, 0, 0.12)"
-            borderRadius="8px"
-          >
+        <Box className="team-form-container">
+          <Box className="team-form-box"   >
             <form onSubmit={handleTeamList}>
               <Stack spacing={2}>
                 <TextField
@@ -440,7 +412,7 @@ const TeamList = () => {
                   type="submit"
                   variant="contained"
                   color="secondary"
-                  fullWidth
+                  className="team-submit-button"
                 >
                   {currentView === "edit" ? "Update" : "Submit"}
                 </Button>
