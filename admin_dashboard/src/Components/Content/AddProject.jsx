@@ -9,45 +9,59 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import '../Styles/Layout.css'
+import "../Styles/Layout.css";
 
 const AddProject = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [photo, setPhoto] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   const handleSubmit = async () => {
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+
+    // Check if there's a photo before appending
+    if (photo) {
+      formData.append("file", photo);
+    }
+
     try {
       const response = await fetch(
         "http://localhost:4000/api/ITservices/createProject",
         {
           method: "POST",
-          body: JSON.stringify({ title, description }),
-          headers: {
-            "Content-Type": "application/json",
-          },
+          body: formData, // Use FormData to send multipart/form-data
         }
       );
-     if (response.ok) {
-       const data = await response.json();
-       console.log("Success response", data);
-       setSnackbarMessage("Project added successfully!");
-       setSnackbarSeverity("success");
-       setSnackbarOpen(true);
-       setTitle("");
-       setDescription("");
-     } else {
-       console.error("Error response", response);
-       setSnackbarMessage("Failed to add project. Please try again.");
-       setSnackbarSeverity("error");
-       setSnackbarOpen(true);
-     }
-    } catch (error) {
-      console.error("Error while adding the project:", error);
-      alert("There was an error while adding the project.");
+
+      if (response.ok) {
+        const data = await response.json();
+        setSnackbarMessage("Project added successfully!");
+        setSnackbarSeverity("success");
+        setSnackbarOpen(true);
+        setTitle("");
+        setDescription("");
+        setPhoto(null);
+      } else {
+        const errorData = await response.json();
+        setSnackbarMessage("Failed to add project. Please try again.");
+        setSnackbarSeverity("error");
+        setSnackbarOpen(true);
+      }
+    } catch{
+      setSnackbarMessage("There was an error while adding the project.");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
     }
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    setPhoto(file);
   };
 
   const handleSnackProject = () => {
@@ -55,16 +69,8 @@ const AddProject = () => {
   };
 
   return (
-    <Box className = "add-project-container"
-     
-    >
-      <Stack
-        direction="row"
-        spacing={2}
-        mb={2}
-        className="add-project-links"
-       
-      >
+    <Box className="add-project-container">
+      <Stack direction="row" spacing={2} mb={2} className="add-project-links">
         <Link to="/add-project" style={{ textDecoration: "none" }}>
           <Typography variant="h6" color="primary" sx={{ fontWeight: 500 }}>
             Add Project
@@ -76,10 +82,7 @@ const AddProject = () => {
           </Typography>
         </Link>
       </Stack>
-      <Box
-        className="add-project-box"
-        
-      >
+      <Box className="add-project-box">
         <Stack spacing={2}>
           <TextField
             label="Title"
@@ -95,6 +98,15 @@ const AddProject = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
+          <Button variant="contained" component="label">
+            Upload Photo
+            <input
+              type="file"
+              name="file"
+              hidden
+              onChange={handleImageUpload}
+            />
+          </Button>
           <Button
             className="add-project-btn"
             variant="contained"
