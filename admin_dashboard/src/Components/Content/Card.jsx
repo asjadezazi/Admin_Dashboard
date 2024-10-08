@@ -25,8 +25,19 @@ const DemoPaper = styled(Paper)(({ theme }) => ({
 
 export default function SquareCorners() {
   return (
-    <Stack direction="row" mt={4} ml={4} spacing={4}>
-      <DemoPaper square={false}>
+    <Stack
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        m: 1,
+        justifyContent: "center",
+      }}
+      // mt={4}
+      // ml={4}
+      // spacing={4}
+    >
+      <DemoPaper sx={{ m: "1rem" }} square={false}>
         <Box display="flex" flexDirection="column" alignItems="flex-start">
           <img
             src={teacherICon}
@@ -42,7 +53,7 @@ export default function SquareCorners() {
         </Box>
       </DemoPaper>
 
-      <DemoPaper square={false}>
+      <DemoPaper sx={{ m: "1rem" }} square={false}>
         <Box display="flex" flexDirection="column" alignItems="flex-start">
           <img
             src={courseICon}
@@ -51,15 +62,13 @@ export default function SquareCorners() {
             height={40}
             style={{ marginBottom: "8px" }}
           />
-          <Typography variant="h5">
-              Course List
-          </Typography>
+          <Typography variant="h5">Course List</Typography>
         </Box>
         <Box display="flex" justifyContent="center" alignItems="center">
           <Typography variant="h5">30</Typography>
         </Box>
       </DemoPaper>
-      <DemoPaper square={false}>
+      <DemoPaper sx={{ m: "1rem" }} square={false}>
         <Box display="flex" flexDirection="column" alignItems="flex-start">
           <img
             src={projectIcon}
@@ -74,7 +83,7 @@ export default function SquareCorners() {
           <Typography variant="h5">30</Typography>
         </Box>
       </DemoPaper>
-      <DemoPaper square={false}>
+      <DemoPaper sx={{ m: "1rem" }} square={false}>
         <Box display="flex" flexDirection="column" alignItems="flex-start">
           <img
             src={teamIcon}

@@ -84,10 +84,10 @@ const AddCourse = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
-          {/* <Button variant="contained" component="label">
+          <Button variant="contained" component="label">
             Upload Photo
             <input type="file" hidden />
-          </Button> */}
+          </Button> 
           <Button
             className="add-course-btn"
             variant="contained"

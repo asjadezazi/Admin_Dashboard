@@ -30,7 +30,8 @@ import '../Styles/Layout.css'
 const columns = [
   { id: "title", label: "Title", minWidth: 150 },
   { id: "description", label: "description", minWidth: 150 },
- 
+  { id: "photo", label: "photo", minWidth: 150 },
+
   { id: "operations", label: "Operations", minWidth: 100 },
 ];
 
@@ -44,6 +45,7 @@ const ProjectList = () => {
   const [newProject, setNewProject] = useState({
     id: "",
     title: "",
+    photo:"",
     description: "",
   });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -107,6 +109,17 @@ const ProjectList = () => {
     }));
   };
 
+const handleImageChange = (event) => {
+  setNewProject((prevState) => ({
+    ...prevState,
+    image: event.target.files[0], // Store the selected image file
+  }));
+};
+
+
+
+
+
   const handleProjectList = async (event) => {
     event.preventDefault();
 
@@ -121,6 +134,7 @@ const ProjectList = () => {
         body: JSON.stringify({
           title: newProject.title,
           description: newProject.description,
+          image: newProject.image,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -149,6 +163,7 @@ const ProjectList = () => {
         id: "",
         title: "",
         description: "",
+        image: "",
       });
       setCurrentView("list");
     } catch (error) {
@@ -181,6 +196,7 @@ const ProjectList = () => {
         id: selectedRow._id,
         title: selectedRow.title,
         description: selectedRow.description,
+        image: selectedRow.image,
       });
       setCurrentView("edit");
     }
@@ -384,7 +400,7 @@ const ProjectList = () => {
 
       {(currentView === "add" || currentView === "edit") && (
         <Box className="project=form-container">
-          <Box className="project-form-box"  >
+          <Box className="project-form-box">
             <form onSubmit={handleProjectList}>
               <Stack spacing={2}>
                 <TextField
@@ -404,6 +420,12 @@ const ProjectList = () => {
                   value={newProject.description}
                   onChange={handleProject}
                   required
+                />
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange} // Add file input
                 />
 
                 <Button
